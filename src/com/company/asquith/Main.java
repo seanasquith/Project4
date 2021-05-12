@@ -2,7 +2,6 @@ package com.company.asquith;
 
 import com.google.gson.Gson;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+class TaskCollection extends ArrayList<Task> {
+}
+
 public class Main {
 
 
@@ -18,7 +20,6 @@ public class Main {
 
         int userOption = -1;
         List<Task> taskList = new ArrayList<>();
-        Gson gson = new Gson();
 
         while (userOption != 0) {
             System.out.println("Please choose an option: ");
@@ -52,11 +53,11 @@ public class Main {
                     break;
                 case 6:
                     try {
-                        TaskList task = loadTasks(taskList);
+                        TaskCollection task = loadTasks();
+                        taskList.addAll(task);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                     break;
                 default:
                     System.out.println("Invalid option!");
@@ -70,19 +71,19 @@ public class Main {
         FileWriter writer = new FileWriter("src/com/company/asquith/data.json");
         gson.toJson(taskList, writer);
         writer.close();
+        System.out.println("Tasks Saved!\n");
     }
 
-    static TaskList loadTasks(List<Task> taskList) throws IOException {
+    static TaskCollection loadTasks() throws IOException {
         Gson gson = new Gson();
         FileReader reader = new FileReader("src/com/company/asquith/data.json");
         try {
-            return gson.fromJson(reader, TaskList.class);
-        }
-        finally {
+            return gson.fromJson(reader, TaskCollection.class);
+        } finally {
             reader.close();
+            System.out.println("Tasks Loaded!\n");
         }
     }
-
 
     static void addTask(List<Task> taskList) {
         Scanner input = new Scanner(System.in);
