@@ -10,9 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-class TaskCollection extends ArrayList<Task> {
-}
-
 public class Main {
 
 
